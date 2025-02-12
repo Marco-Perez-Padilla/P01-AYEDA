@@ -22,14 +22,39 @@
 
 class BigInteger {
  private:
-  BigUnsigned number_;
+  BigUnsigned module_;
   bool sign_; // 1 if negative, 0 if positive
  public:
-
- // Getters
- const BigUnsigned getNumber() const {return number_;}
- const bool getSign() const {return sign_;}
- // Setters
- void setNumber(const BigUnsigned& number) {number_ = number;}
- void setSign(const bool sign) {sign_ = sign;}
+  // Constructors
+  BigInteger(int n = 0);
+  BigInteger(const BigUnsigned& module, bool sign = 1) : module_(module), sign_(sign) {};
+  // Getters
+  const BigUnsigned getModule() const {return module_;}
+  const bool getSign() const {return sign_;}
+  // Setters
+  void setModule(const BigUnsigned& module) {module_ = module;}
+  void setSign(const bool sign) {sign_ = sign;}
+  // Assignation operator 
+  BigInteger& operator=(const BigInteger&);
+  // Insertion and extraction operators
+  friend std::ostream& operator<<(std::ostream&, const BigInteger&);
+  friend std::istream& operator>>(std::istream&, BigInteger&);
+  // Comparation operators
+  friend bool operator<(const BigInteger&, const BigInteger&);
+  // Arithmetic operators 
+  friend BigInteger operator+(const BigInteger&, const BigInteger&);
+  BigInteger operator-(const BigInteger&) const;
+  BigInteger operator*(const BigInteger&) const;
+  BigInteger operator%(const BigInteger&) const;
+  friend BigInteger operator/(const BigInteger&, const BigInteger&);
 };
+
+
+// Comparation operators
+bool operator==(const BigUnsigned&, const BigUnsigned&);
+bool operator>=(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2);
+// Increment/Decrement operators
+BigUnsigned& operator++(BigUnsigned&); // Pre-incremento
+BigUnsigned operator++(BigUnsigned&, int); // Post-incremento
+BigUnsigned& operator--(BigUnsigned&); // Pre-decremento
+BigUnsigned operator--(BigUnsigned&, int); // Post-decremento
