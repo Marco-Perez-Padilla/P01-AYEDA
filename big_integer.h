@@ -57,12 +57,12 @@ class BigInteger {
 
 
 // Comparation operators
-bool operator==(const BigUnsigned&, const BigUnsigned&);
-bool operator>=(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2);
+bool operator==(const BigInteger&, const BigInteger&);
+bool operator>=(const BigInteger& big_unsigned_1, const BigInteger& big_unsigned_2);
 // Increment/Decrement operators
-BigUnsigned& operator++(BigUnsigned&); // Pre-incremento
-BigUnsigned operator++(BigUnsigned&, int); // Post-incremento
-BigUnsigned& operator--(BigUnsigned&); // Pre-decremento
-BigUnsigned operator--(BigUnsigned&, int); // Post-decremento
+BigInteger& operator++(BigInteger&); // Pre-incremento
+BigInteger operator++(BigInteger&, int); // Post-incremento
+BigInteger& operator--(BigInteger&); // Pre-decremento
+BigInteger operator--(BigInteger&, int); // Post-decremento
 
 #endif

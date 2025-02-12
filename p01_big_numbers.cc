@@ -39,11 +39,13 @@ int main (int argc, char* argv[]) {
   BigUnsigned prueba_unsigned_1 (8);
   BigUnsigned prueba_unsigned_2 (7);
 
-  std::cout << "Suma: " << prueba_unsigned_1 << "+" << prueba_unsigned_2 << " = " << prueba_unsigned_1 + prueba_unsigned_2 << std::endl;
-  std::cout << "Resta: " << prueba_unsigned_1 << "-" << prueba_unsigned_2 << " = " << prueba_unsigned_1 - prueba_unsigned_2 << std::endl;
-  std::cout << "Multiplicación: " << prueba_unsigned_1 << "*" << prueba_unsigned_2 << " = " << prueba_unsigned_1 * prueba_unsigned_2 << std::endl;
-  std::cout << "División: " << prueba_unsigned_1 << "/" << prueba_unsigned_2 << " = " << prueba_unsigned_1 / prueba_unsigned_2 << std::endl;
-  std::cout << "Módulo: " << prueba_unsigned_1 << "%" << prueba_unsigned_2 << " = " << prueba_unsigned_1 % prueba_unsigned_2 << std::endl;
+  std::cout << "Suma: " << prueba_unsigned_1 << " + " << prueba_unsigned_2 << " = " << prueba_unsigned_1 + prueba_unsigned_2 << std::endl;
+  std::cout << "Resta: " << prueba_unsigned_1 << " - " << prueba_unsigned_2 << " = " << prueba_unsigned_1 - prueba_unsigned_2 << std::endl;
+  std::cout << "Multiplicación: " << prueba_unsigned_1 << " * " << prueba_unsigned_2 << " = " << prueba_unsigned_1 * prueba_unsigned_2 << std::endl;
+  std::cout << "División: " << prueba_unsigned_1 << " / " << prueba_unsigned_2 << " = " << prueba_unsigned_1 / prueba_unsigned_2 << std::endl;
+  std::cout << "Módulo: " << prueba_unsigned_1 << " % " << prueba_unsigned_2 << " = " << prueba_unsigned_1 % prueba_unsigned_2 << std::endl;
+  std::cout << "Comparación: " << prueba_unsigned_1 << " < " << prueba_unsigned_2 << " = " << ((prueba_unsigned_1 < prueba_unsigned_2) ? "true" : "false") << std::endl;
+  std::cout << "Comparación: " << prueba_unsigned_1 << " == " << prueba_unsigned_2 << " = " << ((prueba_unsigned_1 == prueba_unsigned_2) ? "true" : "false") << std::endl;
 
   std::cout << std::endl;
   std::cout << "Introduzca dos números para el caso en que el numerador es menor al denominador: " << std::endl;
@@ -56,11 +58,13 @@ int main (int argc, char* argv[]) {
   std::cout << "Denominador: ";
   std::cin >> prueba_unsigned_4;
 
-  std::cout << "Suma: " << prueba_unsigned_3 << "+" << prueba_unsigned_4 << " = " << prueba_unsigned_3 + prueba_unsigned_4 << std::endl;
-  std::cout << "Resta: " << prueba_unsigned_3 << "-" << prueba_unsigned_4 << " = " << prueba_unsigned_3 - prueba_unsigned_4 << std::endl;
-  std::cout << "Multiplicación: " << prueba_unsigned_3 << "*" << prueba_unsigned_4 << " = " << prueba_unsigned_3 * prueba_unsigned_4 << std::endl;
-  std::cout << "División: " << prueba_unsigned_3 << "/" << prueba_unsigned_4 << " = " << prueba_unsigned_3 / prueba_unsigned_4 << std::endl;
-  std::cout << "Módulo: " << prueba_unsigned_3 << "%" << prueba_unsigned_4 << " = " << prueba_unsigned_3 % prueba_unsigned_4 << std::endl;
+  std::cout << "Suma: " << prueba_unsigned_3 << " + " << prueba_unsigned_4 << " = " << prueba_unsigned_3 + prueba_unsigned_4 << std::endl;
+  std::cout << "Resta: " << prueba_unsigned_3 << " - " << prueba_unsigned_4 << " = " << prueba_unsigned_3 - prueba_unsigned_4 << std::endl;
+  std::cout << "Multiplicación: " << prueba_unsigned_3 << " * " << prueba_unsigned_4 << " = " << prueba_unsigned_3 * prueba_unsigned_4 << std::endl;
+  std::cout << "División: " << prueba_unsigned_3 << " / " << prueba_unsigned_4 << " = " << prueba_unsigned_3 / prueba_unsigned_4 << std::endl;
+  std::cout << "Módulo: " << prueba_unsigned_3 << " % " << prueba_unsigned_4 << " = " << prueba_unsigned_3 % prueba_unsigned_4 << std::endl;
+  std::cout << "Comparación: " << prueba_unsigned_3 << " < " << prueba_unsigned_4 << " = " << ((prueba_unsigned_3 < prueba_unsigned_4) ? "true" : "false") << std::endl;
+  std::cout << "Comparación: " << prueba_unsigned_3 << " == " << prueba_unsigned_4 << " = " << ((prueba_unsigned_3 == prueba_unsigned_4) ? "true" : "false") << std::endl;
 
   std::cout << std::endl;
   std::cout << std::endl;
@@ -89,12 +93,14 @@ int main (int argc, char* argv[]) {
 
   std::cout << std::endl;
 
-  std::cout << "Suma: " << numerador << "+" << denominador << " = " << numerador + denominador << std::endl;
-  std::cout << "Resta: " << numerador << "-" << denominador << " = " << numerador - denominador << std::endl;
-  std::cout << "Multiplicación: " << numerador << "*" << denominador << " = " << numerador * denominador << std::endl;
-  std::cout << "División: " << numerador << "/" << denominador << " = " << numerador / denominador << std::endl;
-  std::cout << "Módulo: " << numerador << "%" << denominador << " = " << numerador % denominador << std::endl;
-  std::cout << "Máximo común divisor: " << "mcd(" << numerador << ", " << denominador << ") " << " = " << numerador.mcd(numerador, denominador) << std::endl;
+  std::cout << "Suma: " << numerador << " + " << denominador << " = " << numerador + denominador << std::endl;
+  std::cout << "Resta: " << numerador << " - " << denominador << " = " << numerador - denominador << std::endl;
+  std::cout << "Multiplicación: " << numerador << " * " << denominador << " = " << numerador * denominador << std::endl;
+  std::cout << "División: " << numerador << " / " << denominador << " = " << numerador / denominador << std::endl;
+  std::cout << "Módulo: " << numerador << " % " << denominador << " = " << numerador % denominador << std::endl;
+  std::cout << "Comparación: " << numerador << " < " << denominador << " = " << ((numerador < denominador) ? "true" : "false") << std::endl;
+  std::cout << "Comparación: " << numerador << " == " << denominador << " = " << ((numerador == denominador) ? "true" : "false") << std::endl;
+  std::cout << "Máximo común divisor: " << "mcd(" << numerador << ", " << denominador << ")" << " = " << numerador.mcd(numerador, denominador) << std::endl;
 
   std::cout << std::endl;
 
