@@ -94,7 +94,7 @@ int main (int argc, char* argv[]) {
   std::cout << "Multiplicación: " << numerador << "*" << denominador << " = " << numerador * denominador << std::endl;
   std::cout << "División: " << numerador << "/" << denominador << " = " << numerador / denominador << std::endl;
   std::cout << "Módulo: " << numerador << "%" << denominador << " = " << numerador % denominador << std::endl;
-  std::cout << "Máximo común divisor: " << "mod(" << numerador << ", " << denominador << ") " << " = " << numerador.mcd(numerador, denominador) << std::endl;
+  std::cout << "Máximo común divisor: " << "mcd(" << numerador << ", " << denominador << ") " << " = " << numerador.mcd(numerador, denominador) << std::endl;
 
   std::cout << std::endl;
 
