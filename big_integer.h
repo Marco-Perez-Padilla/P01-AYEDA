@@ -16,14 +16,19 @@
 
 ** Historial de revisiones:
 **      05/02/2025 - Creacion (primera version) del codigo
+**      12/02/2025 - Finalizacion del codigo
 **/
+
+
+#ifndef BIG_INTEGER_H
+#define BIG_INTEGER_H
 
 #include "big_unsigned.h"
 
 class BigInteger {
  private:
   BigUnsigned module_;
-  bool sign_; // 1 if negative, 0 if positive
+  bool sign_; // 1 if positive, 0 if negative
  public:
   // Constructors
   BigInteger(int n = 0);
@@ -47,6 +52,7 @@ class BigInteger {
   BigInteger operator*(const BigInteger&) const;
   BigInteger operator%(const BigInteger&) const;
   friend BigInteger operator/(const BigInteger&, const BigInteger&);
+  BigInteger mcd(const BigInteger&, const BigInteger&) const;
 };
 
 
@@ -58,3 +64,5 @@ BigUnsigned& operator++(BigUnsigned&); // Pre-incremento
 BigUnsigned operator++(BigUnsigned&, int); // Post-incremento
 BigUnsigned& operator--(BigUnsigned&); // Pre-decremento
 BigUnsigned operator--(BigUnsigned&, int); // Post-decremento
+
+#endif

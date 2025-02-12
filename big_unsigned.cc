@@ -9,53 +9,73 @@
 ** Correo: alu0101469348@ull.edu.es
 ** Fecha: 05/02/2025
 
-** Archivo big_unsigned.cc: Implementacion de la clase para representar
+** Archivo big_unsigned.cc: Implementacion de la clase para representar numeros naturales grandes, sin limite de representacion
 **
 ** Referencias:
 **      Enlaces de interes
 
 ** Historial de revisiones:
 **      05/02/2025 - Creacion (primera version) del codigo
+**      11/02/2025 - Finalizacion del codigo
 **/
 
 #include "big_unsigned.h"
 
 
+/**
+ * @brief Default constructor that builds a BigUnsigned object
+ * @param unsigned_int number to be converted
+ */
 BigUnsigned::BigUnsigned(unsigned numero) {
+  // Base case and default behaviour
   if (numero == 0) {
     digits_.push_back(0);
   } else {
     while (numero > 0) {
+      // Getting the digit and converting it to char type
       unsigned char digit = static_cast<char>(numero % 10);
       digits_.push_back(digit);
+      // Advance to the next digit
       numero /= 10;
     }
   }
 }
 
 
-
+/**
+ * @brief Constrcutor to build a BigUnsigned object
+ * @param unsigned_char* array of chars to be converted
+ */
 BigUnsigned::BigUnsigned(const unsigned char* char_array) {
+  // Temporal vector. We'll use it to revert the addition order 
   std::vector<unsigned char> temp_digits;
   unsigned i {0};
+  // For each char in the array, until it reaches '<\0'
   while (char_array[i] != '\0') {
+    // If it's not a number, abort
     if (char_array[i] < '0' || char_array[i] > '9') {
-      std::cerr << "md" << std::endl;
+      std::cerr << "The array must not contain a non-numeric character" << std::endl;
       return;
     } else {
+      // Convert the digit
       unsigned char digit = char_array[i] - '0';;
       temp_digits.push_back(digit);
       ++i;
     }
   }
 
+  // Revert the order
   for (int j = temp_digits.size() - 1; j >= 0; j--) {
     digits_.push_back(temp_digits[j]);
   }
 }
 
 
-
+/**
+ * @brief Copy constructor 
+ * @param BigUnsigned to be copied
+ * @return BigUnsigned copied
+ */
 BigUnsigned& BigUnsigned::operator=(const BigUnsigned& big_unsigned) {
   if (this != &big_unsigned) {
     digits_ = big_unsigned.getDigits();
@@ -64,7 +84,12 @@ BigUnsigned& BigUnsigned::operator=(const BigUnsigned& big_unsigned) {
 }
 
 
-
+/**
+ * @brief Overload of << operator
+ * @param ostream
+ * @param BigUnsigned number to be printed
+ * @return ostream
+ */
 std::ostream& operator<<(std::ostream& os, const BigUnsigned& num) {
   if (num.getDigits().empty()) {
     os << '0';
@@ -78,7 +103,12 @@ std::ostream& operator<<(std::ostream& os, const BigUnsigned& num) {
 }
 
 
-
+/**
+ * @brief Overload of >> operator
+ * @param istream
+ * @param BigUnsigned number to be inserted
+ * @return istream
+ */
 std::istream& operator>>(std::istream& is, BigUnsigned& num) {
   std::string input;
   is >> input;
@@ -87,12 +117,20 @@ std::istream& operator>>(std::istream& is, BigUnsigned& num) {
 }
 
 
-
+/**
+ * @brief Overload of < operator for BigUnsigned class. Calculates which one between two BigUnsigneds (aka BU) is the minor one
+ * @param BU number 1 
+ * @param BU number 2
+ * @return bool. True if number 1 is less than number 2. False otherwise
+ */
 bool operator<(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2) {
+  // The one with minor size will be the minor one between them
   if (big_unsigned_1.getDigits().size() != big_unsigned_2.getDigits().size()) {
     return big_unsigned_1.getDigits().size() < big_unsigned_2.getDigits().size();
-  } else {
+  } else { // If same size then
+    // For each digit (from more to less important)
     for (int i = big_unsigned_1.getDigits().size() - 1; i >= 0; --i) {
+      // If a digit is different, the one with minor value of digit will be the minor one
       if (big_unsigned_1.getDigits()[i] < big_unsigned_2.getDigits()[i]) {
         return true;
       } else if (big_unsigned_1.getDigits()[i] > big_unsigned_2.getDigits()[i]) {
@@ -104,6 +142,12 @@ bool operator<(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigne
 }
 
 
+/**
+ * @brief Overload of == operator for BigUnsigned class
+ * @param BU number 1 
+ * @param BU number 2
+ * @return bool. True if number 1 and number 2 are the same. False otherwise
+ */
 bool operator==(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2) {
   if (big_unsigned_1.getDigits().size() != big_unsigned_2.getDigits().size()) {
     return false;
@@ -118,11 +162,20 @@ bool operator==(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsign
 }
 
 
+/**
+ * @brief Overload of >= operator for BigUnsigned class
+ * @param BU number 1 
+ * @param BU number 2
+ * @return bool. True if number 1 is greater or equal than number 2. False otherwise
+ */
 bool operator>=(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2) {
   return !(big_unsigned_1 < big_unsigned_2) || (big_unsigned_1 == big_unsigned_2);
 }
 
 
+/**
+ * @brief Private method that clears the leading zeros resulting from sum and rest
+ */
 void BigUnsigned::ProcessZeros() {
   while (digits_.size() > 1 && digits_.back() == 0) {
     digits_.pop_back();
@@ -130,28 +183,44 @@ void BigUnsigned::ProcessZeros() {
 }
 
 
+/**
+ * @brief Overload of + operator, it calculates the sum between two BU
+ * @param BU number 1 to be summed
+ * @param BU number 2 to be summed
+ * @return BU result of the sum
+ */
 BigUnsigned operator+(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2) {
   BigUnsigned result;
+  // Clearing the BU result
   result.digits_.clear();
+  // Declaring a carry to count while summing
   bool carry = 0;
+
+  // Case: The two numbers have the same size
   if (big_unsigned_1.getDigits().size() == big_unsigned_2.getDigits().size()) {
+    // For each digit
     for (unsigned int i {0}; i < big_unsigned_1.getDigits().size(); ++i) {
+      // Getting the carry from the previous step (0 initially)
       int partial_result = carry;
+      // Summing the two digits
       partial_result += big_unsigned_1.getDigits()[i] + big_unsigned_2.getDigits()[i];
+      // If the sum has two digits, we've got a carry for next steps
       if (partial_result / 10 == 1) {
+        // Add the module and update the carry
         result.digits_.push_back(partial_result % 10);
         carry = 1;
-      } else {
+      } else { // Otherwise, there is no carry
         result.digits_.push_back(partial_result % 10);
         carry = 0;
       }
     }
+    // If in the final step we still got a carry, add it
     if (carry) {
       result.digits_.push_back(carry);
     }
-  }
-  else if (big_unsigned_1.getDigits().size() > big_unsigned_2.getDigits().size()) {
+  } else if (big_unsigned_1.getDigits().size() > big_unsigned_2.getDigits().size()) { // Case: Number 1 size is greater than number 2 size
     unsigned int i {0};
+    // For each digit of number 2 (the minor BU), we repeat the algorithm for same sizes
     while (i < big_unsigned_2.getDigits().size()) {
       int partial_result = carry;
       partial_result += big_unsigned_1.getDigits()[i] + big_unsigned_2.getDigits()[i];
@@ -163,7 +232,7 @@ BigUnsigned operator+(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_
         carry = 0;
       }
       ++i;
-    }
+    } // Where it was the final step before, we continue by propagating the carry through the rest of the digits of the greater numebr
     while (i < big_unsigned_1.getDigits().size()) {
       int partial_result = carry;
       partial_result += big_unsigned_1.getDigits()[i];
@@ -176,11 +245,11 @@ BigUnsigned operator+(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_
       }
       ++i;
     }
-
+    // If we still have a carry in the final step, add it
     if (carry) {
       result.digits_.push_back(carry);
     }
-  } else {
+  } else { // Case: Number 2 size is greater than number 1 size. Repeat the previous algorithm
     unsigned int i {0};
     while (i < big_unsigned_1.getDigits().size()) {
       int partial_result = carry;
@@ -211,12 +280,19 @@ BigUnsigned operator+(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_
       result.digits_.push_back(carry);
     }
   }
+
+  // Eliminate possible leading zeros
   result.ProcessZeros();
+
   return result;
 }
 
 
-
+/**
+ * @brief Pre-increment operator. It adds 1 to a BU in pre-order
+ * @param BU to be added 1
+ * @return BU summed
+ */
 BigUnsigned& operator++(BigUnsigned& big_unsigned_1) {
   BigUnsigned unit (1);
   big_unsigned_1 = big_unsigned_1 + unit;
@@ -224,8 +300,11 @@ BigUnsigned& operator++(BigUnsigned& big_unsigned_1) {
 }
 
 
-
-
+/**
+ * @brief Post-increment operator. It adds 1 to a BU in post-order
+ * @param BU to be added 1
+ * @return BU summed
+ */
 BigUnsigned operator++(BigUnsigned& big_unsigned_1, int) {
   BigUnsigned post_unsigned = big_unsigned_1;
   BigUnsigned unit (1);
@@ -234,16 +313,53 @@ BigUnsigned operator++(BigUnsigned& big_unsigned_1, int) {
 }
 
 
-
+/**
+ * @brief Overload of - operator, it calculates the rest between two BU. If the result is less than zero, it'll show zero
+ * @param BU number to be rested
+ * @return BU result of the rest
+ */
 BigUnsigned BigUnsigned::operator-(const BigUnsigned& big_unsigned_2) const {
   BigUnsigned result;
+  // If the number to be rested is greater than the current one, return 0
   if (*this < big_unsigned_2) {
     return result;
   }
+  // Clear the result
   result.Clear();
+  // Initialize a "carry" (for cases like when: 18-9, the carry will count that "1" after doing "8-9")
   bool carry = 0;
+  // Case: Both sizes are the same
   if (digits_.size() == big_unsigned_2.getDigits().size()) {
+    // For each digit
     for (unsigned int i {0}; i < big_unsigned_2.getDigits().size(); ++i) {
+      // Get the carry from previous step (initially zero)
+      int partial_digit = carry;
+      // Sum the carry to the "inferior" digit
+      partial_digit += big_unsigned_2.getDigits()[i];
+      // If the "superior" limit is lesser than the "inferior" (case 8-9)
+      if (digits_[i] < partial_digit) {
+        // The digit to be added will be result of the following formula: 10 - ("inferior" - "superior")
+        partial_digit = 10 - (partial_digit - digits_[i]);
+        if (partial_digit / 10 == 1) {
+          result.AddDigit(partial_digit % 10);
+        } else {
+          result.AddDigit(partial_digit);
+        }
+        // Propagate the carry
+        carry = 1;
+      } else { // Otherwise, rest normally without carry for the next steps
+        partial_digit = digits_[i] - partial_digit; 
+        result.AddDigit(partial_digit);
+        carry = 0;
+      }
+    }
+    if (carry) {
+      result.digits_.push_back(carry);
+    }
+  } else if (digits_.size() > big_unsigned_2.getDigits().size()) { // Case: Current size is greater than number 2 size
+    unsigned int i {0};
+    // For each digit of number 2, do the previous algorithm
+    while (i < big_unsigned_2.getDigits().size()) {
       int partial_digit = carry;
       partial_digit += big_unsigned_2.getDigits()[i];
       if (digits_[i] < partial_digit) {
@@ -259,44 +375,28 @@ BigUnsigned BigUnsigned::operator-(const BigUnsigned& big_unsigned_2) const {
         result.AddDigit(partial_digit);
         carry = 0;
       }
+      ++i;
     }
-    if (carry) {
-      result.digits_.push_back(carry);
+    // For the rest of the digits, rest normally (carry will only be propagated in the first step, since after that it can happen [1-9]-carry)
+    while (i < digits_.size()) {
+      int partial_digit = carry;
+      partial_digit = digits_[i] - partial_digit; 
+      result.AddDigit(partial_digit);
+      carry = 0;
+      ++i;
     }
-  } else if (digits_.size() > big_unsigned_2.getDigits().size()) {
-      unsigned int i {0};
-      while (i < big_unsigned_2.getDigits().size()) {
-        int partial_digit = carry;
-        partial_digit += big_unsigned_2.getDigits()[i];
-        if (digits_[i] < partial_digit) {
-          partial_digit = 10 - (partial_digit - digits_[i]);
-          if (partial_digit / 10 == 1) {
-            result.AddDigit(partial_digit % 10);
-          } else {
-            result.AddDigit(partial_digit);
-          }
-          carry = 1;
-        } else {
-          partial_digit = digits_[i] - partial_digit; 
-          result.AddDigit(partial_digit);
-          carry = 0;
-        }
-        ++i;
-      }
-      while (i < digits_.size()) {
-        int partial_digit = carry;
-        partial_digit = digits_[i] - partial_digit; 
-        result.AddDigit(partial_digit);
-        carry = 0;
-        ++i;
-      }
-    }
+  }
+  // Clean zeros
   result.ProcessZeros();
   return result;
 }
 
 
-
+/**
+ * @brief Pre-decrement operator. It rests 1 to a BU in pre-order
+ * @param BU to be rested 1
+ * @return BU rested
+ */
 BigUnsigned& operator--(BigUnsigned& big_unsigned_1) {
   BigUnsigned unit (1);
   big_unsigned_1 = big_unsigned_1 - unit;
@@ -304,8 +404,11 @@ BigUnsigned& operator--(BigUnsigned& big_unsigned_1) {
 }
 
 
-
-
+/**
+ * @brief Post-decrement operator. It rests 1 to a BU in post-order
+ * @param BU to be rested 1
+ * @return BU rested
+ */
 BigUnsigned operator--(BigUnsigned& big_unsigned_1, int) {
   BigUnsigned post_unsigned = big_unsigned_1;
   BigUnsigned unit (1);
@@ -314,6 +417,12 @@ BigUnsigned operator--(BigUnsigned& big_unsigned_1, int) {
 }
 
 
+/**
+ * @brief Overload of * operator. It returns the multiplication between two BU
+ * @param BU Number 1
+ * @param BU Number 2
+ * @return BU result
+ */
 BigUnsigned BigUnsigned::operator*(const BigUnsigned& mult) const {
   BigUnsigned result;
   result.Clear();
@@ -333,6 +442,11 @@ BigUnsigned BigUnsigned::operator*(const BigUnsigned& mult) const {
 }
 
 
+/**
+ * @brief Overload of % operator. It returns the module resulting from the integer division between two BU
+ * @param BU denominator
+ * @return BU module result
+ */
 BigUnsigned BigUnsigned::operator%(const BigUnsigned& big_unsigned) const {
   BigUnsigned temp_num;
   temp_num = *this;
@@ -345,6 +459,12 @@ BigUnsigned BigUnsigned::operator%(const BigUnsigned& big_unsigned) const {
 }
 
 
+/**
+ * @brief Overload of / operator. It returns the integer division between two BU
+ * @param BU numerator
+ * @param BU denominator
+ * @return BU integer result
+ */
 BigUnsigned operator/(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_unsigned_2) {
   BigUnsigned temp_num;
 

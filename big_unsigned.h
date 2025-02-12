@@ -9,14 +9,18 @@
 ** Correo: alu0101469348@ull.edu.es
 ** Fecha: 05/02/2025
 
-** Archivo big_unsigned.h: Declaracion de la clase para representar
+** Archivo big_unsigned.h: Declaracion de la clase para representar numeros naturales grandes, sin limite de representacion
 **
 ** Referencias:
 **      Enlaces de interes
 
 ** Historial de revisiones:
 **      05/02/2025 - Creacion (primera version) del codigo
+**      11/02/2025 - Finalizacion del codigo
 **/
+
+#ifndef BIG_UNSIGNED_H
+#define BIG_UNSIGNED_H
 
 #include <iostream>
 #include <vector>
@@ -24,6 +28,10 @@
 class BigUnsigned {
  private:
   std::vector<unsigned char> digits_;
+
+  // Auxiliar private methods
+  void Clear() {digits_.clear();}
+  void ProcessZeros();
  public:
   // Constructors
   BigUnsigned(unsigned n = 0); 
@@ -45,10 +53,8 @@ class BigUnsigned {
   BigUnsigned operator*(const BigUnsigned&) const;
   BigUnsigned operator%(const BigUnsigned&) const;
   friend BigUnsigned operator/(const BigUnsigned&, const BigUnsigned&);
-  // Auxiliar methods
-  void AddDigit (unsigned char digit) {digits_.push_back(digit);}
-  void Clear() {digits_.clear();}
-  void ProcessZeros();
+  // Auxiliar method
+  void AddDigit (unsigned char digit) {digits_.push_back(digit);} // Adds a digit
 };
 
 // Comparation operators
@@ -60,3 +66,4 @@ BigUnsigned operator++(BigUnsigned&, int); // Post-incremento
 BigUnsigned& operator--(BigUnsigned&); // Pre-decremento
 BigUnsigned operator--(BigUnsigned&, int); // Post-decremento
 
+#endif
