@@ -9,7 +9,7 @@
 ** Correo: alu0101469348@ull.edu.es
 ** Fecha: 05/02/2025
 
-** Archivo big_integer.h: Declaracion de la clase para representar
+** Archivo big_integer.h: Declaracion de la clase para representar numeros enteros grandes, sin limite de representacion
 **
 ** Referencias:
 **      Enlaces de interes

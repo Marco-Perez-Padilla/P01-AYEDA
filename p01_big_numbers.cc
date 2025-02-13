@@ -24,6 +24,8 @@
 
 #include "big_unsigned.h"
 #include "big_integer.h"
+#include "big_complex.h"
+
 #include "check_functions.h"
 
 int main (int argc, char* argv[]) {
@@ -103,6 +105,27 @@ int main (int argc, char* argv[]) {
   std::cout << "Máximo común divisor: " << "mcd(" << numerador << ", " << denominador << ")" << " = " << numerador.mcd(numerador, denominador) << std::endl;
 
   std::cout << std::endl;
+  std::cout << std::endl;
 
+  // Modificacion
+
+  std::cout << "Comprobaciones para Big Complex." << std::endl;
+  std::cout << std::endl;
+  std::cout << std::endl;
+  const BigInteger additional_1 (123456789, 1);
+  BigInteger additional_2;
+  std::cout << "Introduzca la parte real del segundo numero (9876543210)" << std::endl;
+  std::cin >> additional_2;
+  const BigInteger additional_3 (123456788, 0);
+
+  BigComplex num1 (additional_1, additional_1);
+  BigComplex num2 (additional_2, additional_3);
+
+  std::cout << "num1: " << num1 << std::endl;
+  std::cout << "num2: " << num2 << std::endl;
+  
+  std::cout << std::endl;
+
+  std::cout << "Suma: " << num1 + num2 << std::endl;
   return 0;
 }

@@ -17,6 +17,7 @@
 ** Historial de revisiones:
 **      05/02/2025 - Creacion (primera version) del codigo
 **      11/02/2025 - Finalizacion del codigo
+**      13/20/2025 - Arreglo de la resta
 **/
 
 #include "big_unsigned.h"
@@ -353,36 +354,30 @@ BigUnsigned BigUnsigned::operator-(const BigUnsigned& big_unsigned_2) const {
         carry = 0;
       }
     }
-    if (carry) {
-      result.digits_.push_back(carry);
-    }
   } else if (digits_.size() > big_unsigned_2.getDigits().size()) { // Case: Current size is greater than number 2 size
     unsigned int i {0};
     // For each digit of number 2, do the previous algorithm
     while (i < big_unsigned_2.getDigits().size()) {
-      int partial_digit = carry;
-      partial_digit += big_unsigned_2.getDigits()[i];
-      if (digits_[i] < partial_digit) {
-        partial_digit = 10 - (partial_digit - digits_[i]);
-        if (partial_digit / 10 == 1) {
-          result.AddDigit(partial_digit % 10);
-        } else {
-          result.AddDigit(partial_digit);
-        }
+      int partial_digit = digits_[i] - big_unsigned_2.getDigits()[i] - carry;
+      if (partial_digit < 0) {
+        partial_digit += 10;
         carry = 1;
       } else {
-        partial_digit = digits_[i] - partial_digit; 
-        result.AddDigit(partial_digit);
         carry = 0;
       }
+      result.AddDigit(partial_digit);
       ++i;
     }
-    // For the rest of the digits, rest normally (carry will only be propagated in the first step, since after that it can happen [1-9]-carry)
+    // For the rest of the digits
     while (i < digits_.size()) {
-      int partial_digit = carry;
-      partial_digit = digits_[i] - partial_digit; 
+      int partial_digit = digits_[i] - carry; 
+      if (partial_digit < 0) {
+        partial_digit += 10;
+        carry = 1;
+      } else {
+          carry = 0;
+      }
       result.AddDigit(partial_digit);
-      carry = 0;
       ++i;
     }
   }
@@ -476,9 +471,10 @@ BigUnsigned operator/(const BigUnsigned& big_unsigned_1, const BigUnsigned& big_
   temp_num.Clear();
   BigUnsigned counter;
   temp_num = big_unsigned_1;
+  
   while (temp_num >= big_unsigned_2) {
     temp_num = temp_num - big_unsigned_2;
-    ++counter; // Incrementa el contador (resultado)
+    ++counter; 
   }
 
   return counter;
