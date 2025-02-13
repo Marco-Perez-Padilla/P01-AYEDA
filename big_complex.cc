@@ -39,9 +39,9 @@ std::ostream& operator<<(std::ostream& os, const BigComplex& big_complex_1) {
   os << big_complex_1.getReal() << " ";
   BigInteger null (BigUnsigned(), 1);
   if (big_complex_1.getImaginary() < null) {
-    os << big_complex_1.getImaginary();
+    os << big_complex_1.getImaginary() << " i";
   } else {
-    os << "+ " << big_complex_1.getImaginary();
+    os << "+ " << big_complex_1.getImaginary() << " i";
   }
   return os;
 }

@@ -119,7 +119,7 @@ int main (int argc, char* argv[]) {
   const BigInteger additional_3 (123456788, 0);
 
   BigComplex num1 (additional_1, additional_1);
-  BigComplex num2 (additional_2, additional_3);
+  BigComplex num2 (9876543210, additional_3);
 
   std::cout << "num1: " << num1 << std::endl;
   std::cout << "num2: " << num2 << std::endl;
